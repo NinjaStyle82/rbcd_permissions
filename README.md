@@ -30,7 +30,7 @@ Successfully added permissions!
 
 ## Kerberos
 ```
-% python3 rbcd.py -t 'CN=DC1,OU=Domain Controllers,DC=lab,DC=local' -d lab.local -c CN=Server1,CN=Computers,DC=lab,DC=local -k -l dc1.lab.local
+python3 rbcd.py -t 'CN=DC1,OU=Domain Controllers,DC=lab,DC=local' -d lab.local -c CN=Server1,CN=Computers,DC=lab,DC=local -k -l dc1.lab.local
 Successfully added permissions!
 ```
 
