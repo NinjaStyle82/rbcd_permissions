@@ -1,5 +1,5 @@
 # rbcd_permissions
-Add SD for controlled computer object to a target object for RBCD using LDAP
+Add SD for controlled computer object to a target object for resource-base constrained delegation (RBCD) using LDAP
 ```
 optional arguments:
   -h, --help            show this help message and exit
