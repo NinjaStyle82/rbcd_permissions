@@ -36,6 +36,6 @@ Successfully added permissions!
 
 ## Cleanup
 ```
-python3 ~/Desktop/rbcd_permissions.py -t 'CN=DC1,OU=Domain Controllers,DC=lab,DC=local' -d lab.local -c CN=Server1,CN=Computers,DC=lab,DC=local -u administrator -p Password1 -l dc1.lab.local --cleanup
+python3 rbcd.py -t 'CN=DC1,OU=Domain Controllers,DC=lab,DC=local' -d lab.local -c CN=Server1,CN=Computers,DC=lab,DC=local -u administrator -p Password1 -l dc1.lab.local --cleanup
 Successfully cleaned up!
 ```
