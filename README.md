@@ -1,3 +1,7 @@
+## Depricated in favor of Impacket implementation 
+
+https://github.com/SecureAuthCorp/impacket/pull/1108
+
 # rbcd_permissions
 Add SD for controlled computer object to a target object for resource-base constrained delegation (RBCD) using LDAP
 ```
